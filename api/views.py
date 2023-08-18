@@ -2,13 +2,8 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework import viewsets
 
-from api.serializers import CategorySerializer
-from events.models import Category
-
-
-# Create your views here.
-def event_list(request):
-    return None
+from api.serializers import CategorySerializer, EventSerializer
+from events.models import Category, Event
 
 
 # def category_list(request):
@@ -21,3 +16,10 @@ def event_list(request):
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    http_method_names = ['get', 'post', 'put', 'delete']
+
+
+class EventViewSet(viewsets.ModelViewSet):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+    http_method_names = ['get', 'post',]
