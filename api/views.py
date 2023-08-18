@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 
 from api.serializers import CategorySerializer, EventSerializer
 from events.models import Category, Event
@@ -23,3 +24,4 @@ class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
     http_method_names = ['get', 'post',]
+    permission_classes = [IsAuthenticated]

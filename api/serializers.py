@@ -6,7 +6,10 @@ from events.models import Category, Event
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = '__all__'
+        fields = ['id', 'name']
+        extra_kwargs = {
+            'id': {'read_only': True},
+        }
 
 
 class EventSerializer(serializers.ModelSerializer):
@@ -18,3 +21,9 @@ class EventSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'id': {'read_only': True},
         }
+
+    def create(self, validated_data):
+        category_data = validated_data.pop('category')
+        category = Category.objects.get(name=category_data['name'])
+        event = Event.objects.create(category=category, **validated_data)
+        return event
